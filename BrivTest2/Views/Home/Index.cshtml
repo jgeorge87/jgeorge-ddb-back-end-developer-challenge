@@ -1,0 +1,230 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div id="container" class="row">
+    <br />
+    <div class="col-sm-1">
+        <label>Strength</label>
+        <div id="strengthMod" class="text-center" style="border:2px solid black; height:40px; font-size:2em;">&nbsp;</div>
+        <div id="strength" class="text-center" style="border:2px solid black;">&nbsp;</div>
+    </div>
+    <div class="col-sm-1">
+        <label>Dexterity</label>
+        <div id="dexterityMod" class="text-center" style="border:2px solid black; height:40px; font-size:2em;">&nbsp;</div>
+        <div id="dexterity" class="text-center" style="border:2px solid black;">&nbsp;</div>
+    </div>
+    <div class="col-sm-1">
+        <label>Constitution</label>
+        <div id="constitutionMod" class="text-center" style="border:2px solid black; height:40px; font-size:2em;">&nbsp;</div>
+        <div id="constitution" class="text-center" style="border:2px solid black;">&nbsp;</div>
+    </div>
+    <div class="col-sm-1">
+        <label>Intelligence</label>
+        <div id="intelligenceMod" class="text-center" style="border:2px solid black; height:40px; font-size:2em;">&nbsp;</div>
+        <div id="intelligence" class="text-center" style="border:2px solid black;">&nbsp;</div>
+    </div>
+    <div class="col-sm-1">
+        <label>Wisdom</label>
+        <div id="wisdomMod" class="text-center" style="border:2px solid black; height:40px; font-size:2em;">&nbsp;</div>
+        <div id="wisdom" class="text-center" style="border:2px solid black;">&nbsp;</div>
+    </div>
+    <div class="col-sm-1">
+        <label>Charisma</label>
+        <div id="charismaMod" class="text-center" style="border:2px solid black; height:40px; font-size:2em;">&nbsp;</div>
+        <div id="charisma" class="text-center" style="border:2px solid black;">&nbsp;</div>
+    </div>
+    <div class="col-sm-1 text-center">
+        <form id="testHeal">
+            <button class="btn btn-success btn-primary" style="margin-top:2px;" onclick="javascript: HealDamage();">Heal</button><br />
+        </form>
+        <div id="damageHeal" class="text-center" style="border:2px solid black; margin-top:10px; display:table;">
+            <input id="damageHealAmount" class="col-sm-1 text-center" style="display:table-cell; width:100%;font-size:1.7em;" />
+            <input type="hidden" id="damageType" />
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <form id="testDamage" style="display:block;">
+            <button id="slashing" type="submit" class="btn btn-warning col-sm-7" style="margin-top:2px;" onclick="javascript: SetDamageType('slashing');">Slashing</button>
+            <br />
+            <button id="others" type="submit" class="btn btn-warning col-sm-7" style="margin-top:2px;" onclick="javascript: SetDamageType('cold');">Damage</button>
+            <br />
+            <button id="fire" type="submit" class="btn btn-warning col-sm-7" style="margin-top:2px;" onclick="javascript: SetDamageType('fire');">Fire</button>
+        </form>
+        <label>Damage Types</label>
+    </div>
+    <div class="col-sm-2 text-center">
+        <div id="hpSection" class="text-center">
+            <p><span><label>Current</label></span> / <span><label>Max</label></span></p>
+            <p style="font-size:2.3em;"><span id="currentHP"></span> / <span id="maxHP"></span></p>
+        </div>
+        <label>Hit Points</label>
+    </div>
+    <div class="col-sm-1 text-center">
+        <label>Temp</label>
+        <form id="tempHP">
+            <div id="characterTempHP" class="text-center" style="border:none; margin-top:10px; display:table;">
+                <input id="temporaryHP" class="col-sm-1 text-center" style="display:table-cell; width:100%; font-size:2.3em; border:none;" />
+            </div>
+        </form>
+    </div>
+    <br />
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: 'https://localhost:44306/api/Values/getcharacter',
+            statusCode: {
+                200: function (data) {
+                    var info = JSON.parse(data);
+                    document.getElementById('strength').innerHTML = info.Stats.Strength;
+                    document.getElementById('dexterity').innerHTML = info.Stats.Dexterity;
+                    document.getElementById('constitution').innerHTML = info.Stats.Constitution;
+                    document.getElementById('intelligence').innerHTML = info.Stats.Intelligence;
+                    document.getElementById('wisdom').innerHTML = info.Stats.Wisdom;
+                    document.getElementById('charisma').innerHTML = info.Stats.Charisma;
+                    document.getElementById('currentHP').innerHTML = info.CurrentHP;
+                    document.getElementById('maxHP').innerHTML = info.MaxHP;
+                    $("#temporaryHP").val(info.TempHP);
+                    console.log(data);
+                    GetModifiers();
+                },
+
+                500: function (data) {
+                    console.log(data);
+                    alert('There was an error processing your data.');
+                }
+            }
+        });
+    });
+
+    function GetModifiers() {
+        $.ajax({
+            url: 'https://localhost:44306/api/Values/getmodifiers',
+            type: 'GET',
+            statusCode: {
+                200: function (data) {
+                    var info = JSON.parse(data);
+                    document.getElementById('strengthMod').innerHTML = info.Strength;
+                    document.getElementById('dexterityMod').innerHTML = info.Dexterity;
+                    document.getElementById('constitutionMod').innerHTML = info.Constitution;
+                    document.getElementById('intelligenceMod').innerHTML = info.Intelligence;
+                    document.getElementById('wisdomMod').innerHTML = info.Wisdom;
+                    document.getElementById('charismaMod').innerHTML = info.Charisma;
+                    console.log(data);
+                },
+
+                500: function (data) {
+                    console.log(data);
+                    alert('There was an error processing your data.');
+                }
+            }
+        });
+    }
+
+    function TestDamage() {
+        var form = $('#testDamage');
+        form.submit(function (e) {
+            var form = $(this);
+            var damageType = $("#damageType").val();
+            var dhAmount = $("#damageHealAmount").val();
+            var damageSet = { damagetype: damageType, damage: dhAmount };
+            var damage = JSON.stringify(damageSet);
+            console.log(damage);
+
+            $.ajax({
+                url: 'https://localhost:44306/api/Values/dodamage',
+                cache: false,
+                type: 'POST',
+                data: damage,
+                contentType: 'application/json; charset=utf-8',
+                statusCode: {
+                    200: function (data) {
+                        var info = JSON.parse(data);
+                        document.getElementById('currentHP').innerHTML = info.HP;
+                        $("#temporaryHP").val(info.TempHP);
+                        $("#damageHealAmount").val('');
+                        $("#damageType").val('');
+                        console.log(data);
+                        document.getElementById("testDamage").reset(); 
+                    },
+
+                    500: function (data) {
+                        console.log(data);
+                        alert('There was an error processing your data.');
+                    }
+                }
+            });
+            e.stopImmediatePropagation();
+            return false;
+        });
+    }
+
+    function HealDamage() {
+        var form = $('#testHeal');
+        form.submit(function (e) {
+            var form = $(this);
+            var dhAmount = $("#damageHealAmount").val();
+            var healingAmt = { healingHP: dhAmount };
+            var damage = JSON.stringify(healingAmt);
+
+            $.ajax({
+                url: 'https://localhost:44306/api/Values/healhp',
+                cache: false,
+                type: 'POST',
+                data: damage,
+                contentType: 'application/json; charset=utf-8',
+                statusCode: {
+                    200: function (data) {
+                        var info = JSON.parse(data);
+                        document.getElementById('currentHP').innerHTML = info;
+                        $("#damageHealAmount").val('');
+                        console.log(data);
+                    },
+
+                    500: function (data) {
+                        console.log(data);
+                        alert('There was an error processing your data.');
+                    }
+                }
+            });
+            e.stopImmediatePropagation();
+            return false;
+        });
+    }
+
+    $("#temporaryHP").blur(function () {
+        var tempHitPoints = $("#temporaryHP").val();
+        var hp = { tempHP: tempHitPoints };
+        var json = JSON.stringify(hp);
+
+        $.ajax({
+            url: 'https://localhost:44306/api/Values/addtemphp',
+            cache: false,
+            type: 'POST',
+            data: json,
+            contentType: 'application/json; charset=utf-8',
+            statusCode: {
+                200: function (data) {
+                    info = JSON.parse(data);
+                    $("#temporaryHP").val(info);
+                    console.log(data);
+                },
+
+                500: function (data) {
+                    console.log(data);
+                    alert('There was an error processing your data.');
+                }
+            }
+        });
+    }); 
+
+    function SetDamageType(damageType) {
+        document.getElementById("damageType").value = damageType;
+        TestDamage();
+        return false;
+    }
+</script>
