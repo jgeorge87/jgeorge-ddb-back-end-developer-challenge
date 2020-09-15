@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  brivtest2:
+    image: ${DOCKER_REGISTRY-}brivtest2
+    build:
+      context: .
+      dockerfile: BrivTest2/Dockerfile
