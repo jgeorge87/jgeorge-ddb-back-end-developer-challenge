@@ -7,6 +7,9 @@ namespace BrivTest2.Models
 {
     public class Character
     {
+        public int MaxHP { get; set; }
+        public int CurrentHP { get; set; }
+        public int TempHP { get; set; }
         public string Name { get; set; }
         public int Level { get; set; }
         public List<Class> Classes { get; set; }

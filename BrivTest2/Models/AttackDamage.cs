@@ -7,7 +7,7 @@ namespace BrivTest2.Models
 {
     public class AttackDamage
     {
-        public string Type { get; set; }
+        public string DamageType { get; set; }
         public int Damage { get; set; }
     }
 }

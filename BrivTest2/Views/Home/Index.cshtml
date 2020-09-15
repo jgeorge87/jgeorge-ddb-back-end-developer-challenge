@@ -2,116 +2,71 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how to build ASP.NET apps that can run anywhere.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner2.svg" alt="Visual Studio" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    There are powerful new features in Visual Studio for building modern web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner3.svg" alt="Microsoft Azure" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
-
-<div class="row">
-    <div class="col-md-3">
-        <h2>Application uses</h2>
-        <ul>
-            <li>Sample pages using ASP.NET Core MVC</li>
-            <li>Theming using <a href="https://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>How to</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398600">Add a Controller and View</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699315">Manage User Secrets using Secret Manager.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699316">Use logging to log a message.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699317">Add packages using NuGet.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699319">Target development, staging or production environment.</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Overview</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699320">Fundamentals of ASP.NET Core such as Startup and middleware.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398603">Security</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699321">Client side development</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699322">Develop on different platforms</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699323">Read more on the documentation site</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Run &amp; Deploy</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
-        </ul>
-    </div>
-    <div>
-        <form id="testDamage">
-            <button type="submit" onclick="javascript: TestDamage();">Test Damage Here</button>
-        </form>
-        <form id="tempHP">
-            <button type="submit" onclick="javascript: TempHP();">Test Temp HP Here</button>
-        </form>
-    </div>
+<div id="container" class="row">
     <br />
-    <div>
-        <label>Character</label>
-        <p id="characterJSON"></p>
-        <br />
-
+    <div class="col-sm-1">
+        <label>Strength</label>
+        <div id="strengthMod" class="text-center" style="border:2px solid black; height:40px; font-size:2em;">&nbsp;</div>
+        <div id="strength" class="text-center" style="border:2px solid black;">&nbsp;</div>
+    </div>
+    <div class="col-sm-1">
+        <label>Dexterity</label>
+        <div id="dexterityMod" class="text-center" style="border:2px solid black; height:40px; font-size:2em;">&nbsp;</div>
+        <div id="dexterity" class="text-center" style="border:2px solid black;">&nbsp;</div>
+    </div>
+    <div class="col-sm-1">
+        <label>Constitution</label>
+        <div id="constitutionMod" class="text-center" style="border:2px solid black; height:40px; font-size:2em;">&nbsp;</div>
+        <div id="constitution" class="text-center" style="border:2px solid black;">&nbsp;</div>
+    </div>
+    <div class="col-sm-1">
+        <label>Intelligence</label>
+        <div id="intelligenceMod" class="text-center" style="border:2px solid black; height:40px; font-size:2em;">&nbsp;</div>
+        <div id="intelligence" class="text-center" style="border:2px solid black;">&nbsp;</div>
+    </div>
+    <div class="col-sm-1">
+        <label>Wisdom</label>
+        <div id="wisdomMod" class="text-center" style="border:2px solid black; height:40px; font-size:2em;">&nbsp;</div>
+        <div id="wisdom" class="text-center" style="border:2px solid black;">&nbsp;</div>
+    </div>
+    <div class="col-sm-1">
+        <label>Charisma</label>
+        <div id="charismaMod" class="text-center" style="border:2px solid black; height:40px; font-size:2em;">&nbsp;</div>
+        <div id="charisma" class="text-center" style="border:2px solid black;">&nbsp;</div>
+    </div>
+    <div class="col-sm-1 text-center">
+        <form id="testHeal">
+            <button class="btn btn-success btn-primary" style="margin-top:2px;" onclick="javascript: HealDamage();">Heal</button><br />
+        </form>
+        <div id="damageHeal" class="text-center" style="border:2px solid black; margin-top:10px; display:table;">
+            <input id="damageHealAmount" class="col-sm-1 text-center" style="display:table-cell; width:100%;font-size:1.7em;" />
+            <input type="hidden" id="damageType" />
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <form id="testDamage" style="display:block;">
+            <button id="slashing" type="submit" class="btn btn-warning col-sm-7" style="margin-top:2px;" onclick="javascript: SetDamageType('slashing');">Slashing</button>
+            <br />
+            <button id="others" type="submit" class="btn btn-warning col-sm-7" style="margin-top:2px;" onclick="javascript: SetDamageType('cold');">Damage</button>
+            <br />
+            <button id="fire" type="submit" class="btn btn-warning col-sm-7" style="margin-top:2px;" onclick="javascript: SetDamageType('fire');">Fire</button>
+        </form>
+        <label>Damage Types</label>
+    </div>
+    <div class="col-sm-2 text-center">
+        <div id="hpSection" class="text-center">
+            <p><span><label>Current</label></span> / <span><label>Max</label></span></p>
+            <p style="font-size:2.3em;"><span id="currentHP"></span> / <span id="maxHP"></span></p>
+        </div>
         <label>Hit Points</label>
-        <p id="characterHP"></p>
-        <br />
-
-        <label>Temp Hit Points</label>
-        <p id="characterTempHP"></p>
-        <br />
+    </div>
+    <div class="col-sm-1 text-center">
+        <label>Temp</label>
+        <form id="tempHP">
+            <div id="characterTempHP" class="text-center" style="border:none; margin-top:10px; display:table;">
+                <input id="temporaryHP" class="col-sm-1 text-center" style="display:table-cell; width:100%; font-size:2.3em; border:none;" />
+            </div>
+        </form>
     </div>
     <br />
 </div>
@@ -125,23 +80,60 @@
             statusCode: {
                 200: function (data) {
                     var info = JSON.parse(data);
-                    document.getElementById('characterJSON').innerHTML = info.Name;
+                    document.getElementById('strength').innerHTML = info.Stats.Strength;
+                    document.getElementById('dexterity').innerHTML = info.Stats.Dexterity;
+                    document.getElementById('constitution').innerHTML = info.Stats.Constitution;
+                    document.getElementById('intelligence').innerHTML = info.Stats.Intelligence;
+                    document.getElementById('wisdom').innerHTML = info.Stats.Wisdom;
+                    document.getElementById('charisma').innerHTML = info.Stats.Charisma;
+                    document.getElementById('currentHP').innerHTML = info.CurrentHP;
+                    document.getElementById('maxHP').innerHTML = info.MaxHP;
+                    $("#temporaryHP").val(info.TempHP);
                     console.log(data);
+                    GetModifiers();
                 },
 
                 500: function (data) {
-                    console.log(data)
+                    console.log(data);
+                    alert('There was an error processing your data.');
                 }
             }
         });
     });
 
+    function GetModifiers() {
+        $.ajax({
+            url: 'https://localhost:44306/api/Values/getmodifiers',
+            type: 'GET',
+            statusCode: {
+                200: function (data) {
+                    var info = JSON.parse(data);
+                    document.getElementById('strengthMod').innerHTML = info.Strength;
+                    document.getElementById('dexterityMod').innerHTML = info.Dexterity;
+                    document.getElementById('constitutionMod').innerHTML = info.Constitution;
+                    document.getElementById('intelligenceMod').innerHTML = info.Intelligence;
+                    document.getElementById('wisdomMod').innerHTML = info.Wisdom;
+                    document.getElementById('charismaMod').innerHTML = info.Charisma;
+                    console.log(data);
+                },
+
+                500: function (data) {
+                    console.log(data);
+                    alert('There was an error processing your data.');
+                }
+            }
+        });
+    }
+
     function TestDamage() {
         var form = $('#testDamage');
-        form.submit(function () {
+        form.submit(function (e) {
             var form = $(this);
-            var damageSet = { type: 'cold', damage: 11 };
+            var damageType = $("#damageType").val();
+            var dhAmount = $("#damageHealAmount").val();
+            var damageSet = { damagetype: damageType, damage: dhAmount };
             var damage = JSON.stringify(damageSet);
+            console.log(damage);
 
             $.ajax({
                 url: 'https://localhost:44306/api/Values/dodamage',
@@ -152,46 +144,87 @@
                 statusCode: {
                     200: function (data) {
                         var info = JSON.parse(data);
-                        document.getElementById('characterHP').innerHTML = info.HP;
+                        document.getElementById('currentHP').innerHTML = info.HP;
+                        $("#temporaryHP").val(info.TempHP);
+                        $("#damageHealAmount").val('');
+                        $("#damageType").val('');
                         console.log(data);
+                        document.getElementById("testDamage").reset(); 
                     },
 
                     500: function (data) {
-                        console.log(data)
+                        console.log(data);
+                        alert('There was an error processing your data.');
                     }
                 }
             });
+            e.stopImmediatePropagation();
             return false;
         });
     }
 
-    function TempHP() {
-        var form = $('#tempHP');
-        form.submit(function () {
+    function HealDamage() {
+        var form = $('#testHeal');
+        form.submit(function (e) {
             var form = $(this);
-            var hp = { tempHP: 5 };
-            var json = JSON.stringify(hp);
+            var dhAmount = $("#damageHealAmount").val();
+            var healingAmt = { healingHP: dhAmount };
+            var damage = JSON.stringify(healingAmt);
 
             $.ajax({
-                url: 'https://localhost:44306/api/Values/addtemphp',
+                url: 'https://localhost:44306/api/Values/healhp',
                 cache: false,
                 type: 'POST',
-                data: json,
+                data: damage,
                 contentType: 'application/json; charset=utf-8',
                 statusCode: {
                     200: function (data) {
-                        obj = JSON.parse(data);
-                        //var info = JSON.parse(data);
-                        document.getElementById('characterTempHP').innerHTML = obj.TempHP;
+                        var info = JSON.parse(data);
+                        document.getElementById('currentHP').innerHTML = info;
+                        $("#damageHealAmount").val('');
                         console.log(data);
                     },
 
                     500: function (data) {
-                        console.log(data)
+                        console.log(data);
+                        alert('There was an error processing your data.');
                     }
                 }
             });
+            e.stopImmediatePropagation();
             return false;
         });
+    }
+
+    $("#temporaryHP").blur(function () {
+        var tempHitPoints = $("#temporaryHP").val();
+        var hp = { tempHP: tempHitPoints };
+        var json = JSON.stringify(hp);
+
+        $.ajax({
+            url: 'https://localhost:44306/api/Values/addtemphp',
+            cache: false,
+            type: 'POST',
+            data: json,
+            contentType: 'application/json; charset=utf-8',
+            statusCode: {
+                200: function (data) {
+                    info = JSON.parse(data);
+                    $("#temporaryHP").val(info);
+                    console.log(data);
+                },
+
+                500: function (data) {
+                    console.log(data);
+                    alert('There was an error processing your data.');
+                }
+            }
+        });
+    }); 
+
+    function SetDamageType(damageType) {
+        document.getElementById("damageType").value = damageType;
+        TestDamage();
+        return false;
     }
 </script>

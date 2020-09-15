@@ -28,6 +28,29 @@ body {
     margin: 15px;
 }
 
+.modBox {
+    border: 2px solid black;
+    height: 40px;
+    font-size: 2em;
+}
+
+.statBorder {
+    border:2px solid black;
+}
+
+#damageHeal {
+    border: 2px solid black;
+    margin-top: 10px;
+    display: table;
+}
+
+#characterTempHP {
+    border: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: table;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */

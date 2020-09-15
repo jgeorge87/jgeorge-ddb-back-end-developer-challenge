@@ -15,11 +15,44 @@ namespace BrivTest2.Models
     public class Processing
     {
         private readonly Random _random = new Random();
-        private IHostingEnvironment _env; 
+        private readonly IHostingEnvironment _env; 
         public Processing(IHostingEnvironment env)
         {
             _env = env;
         }
+        #region Save Character
+        public bool SaveCharacter(Character character)
+        {
+            using (StreamWriter file = File.CreateText(_env.WebRootPath + "/js/brivSave.json"))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, character);
+
+                if (File.Exists(_env.WebRootPath + "/js/brivSave.json"))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        #endregion
+        #region Check For Save
+        public bool CheckForSave()
+        {
+            if (File.Exists(_env.WebRootPath + "/js/brivSave.json"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        #endregion
+        #region JSON Serialze and Deserialize
         public void JsonSerialize(object data, string filePath)
         {
             JsonSerializer jsonSerializer = new JsonSerializer();
@@ -49,29 +82,41 @@ namespace BrivTest2.Models
             }
             return obj.ToObject(dataType);
         }
-
-        public Character PopulateCharacter()
+        #endregion
+        #region Populate Character
+        public Character PopulateCharacter(string filepath, bool loadCharacter)
         {
-            Character briv = JsonConvert.DeserializeObject<Character>(File.ReadAllText(_env.WebRootPath + "/js/briv.json"));
+            Character briv = JsonConvert.DeserializeObject<Character>(File.ReadAllText(filepath));
             Character character = new Character();
 
             List<Class> list = briv.Classes;
             List<Item> items = briv.Items;
             List<Def> defense = briv.Defenses;
-            Stat stat = new Stat();
-            //This function is adding the +2 to the constitution stat from the equipped item
-            stat = StatIncreaseByItem(briv.Stats, briv.Items);
-
             character.Name = briv.Name;
             character.Level = briv.Level;
             character.Classes = list;
-            character.Stats = stat;
             character.Items = items;
             character.Defenses = defense;
 
+            if (loadCharacter == true)
+            {
+                character.MaxHP = briv.MaxHP;
+                character.CurrentHP = briv.CurrentHP;
+                character.TempHP = briv.TempHP;
+                character.Stats = briv.Stats;
+            }
+
+            else
+            {
+                //This function is adding the +2 to the constitution stat from the equipped item
+                Stat stat = StatIncreaseByItem(briv.Stats, briv.Items);
+                character.Stats = stat;
+            }
+            
             return character;
         }
-
+        #endregion
+        #region Calculate HP Upon Creation
         public int CalculateHP (List<Class> classes, int constitution)
         {
             int totalHP = 0;
@@ -95,12 +140,26 @@ namespace BrivTest2.Models
                 totalLevel += level;
             }
 
-            double conMod = ((constitution - 10) / 2); //This formula gets the constitution modifier before rounding
-            totalHP += (int)Math.Floor(conMod); //This will round that value down
-            totalHP += (int)conMod * totalLevel; //This adds the rest of the hit points based on the character's constitution
+            int conMod = (int)Math.Floor(Convert.ToDouble(constitution - 10) / 2); //This formula gets the constitution modifier
+            totalHP += ((int)conMod * totalLevel) + conMod; //This adds the rest of the hit points based on the character's constitution
             return totalHP;
         }
+        #endregion
+        #region Get Ability Stat Modifiers
+        public Modifier GetStatModifiers(Stat stats)
+        {
+            Modifier mods = new Modifier();
+            mods.Strength = (int)Math.Floor(Convert.ToDouble(stats.Strength - 10) / 2);
+            mods.Dexterity = (int)Math.Floor(Convert.ToDouble(stats.Dexterity - 10) / 2);
+            mods.Constitution = (int)Math.Floor(Convert.ToDouble(stats.Constitution - 10) / 2);
+            mods.Intelligence = (int)Math.Floor(Convert.ToDouble(stats.Intelligence - 10) / 2);
+            mods.Wisdom = (int)Math.Floor(Convert.ToDouble(stats.Wisdom - 10) / 2);
+            mods.Charisma = (int)Math.Floor(Convert.ToDouble(stats.Charisma - 10) / 2);
 
+            return mods;
+        }
+        #endregion
+        #region Get Stat Score Increase From Items
         public Stat StatIncreaseByItem(Stat stats, List<Item> items)
         {
             //This will add any stat increases from equipped items. (There's likely a better way)
@@ -140,14 +199,16 @@ namespace BrivTest2.Models
 
             return stats;
         }
-
+        #endregion
+        #region Random Number Generator For Rolling Hit Dice
         // Generates a random number within a range.      
         public int RandomNumber(int min, int max)
         {
             return _random.Next(min, max);
         }
-
-        public HitPoints RemainingHP(string type, int damage, List<Def> defenses, int HP, int tempHp)
+        #endregion
+        #region Calculate Remaining HP After Taking Damage
+        public HitPoints RemainingHP(string type, int damage, List<Def> defenses, int HP, int tempHp, int maxHP)
         {
             //This will handle damage resistances and immunities
             foreach (Def defense in defenses)
@@ -179,10 +240,18 @@ namespace BrivTest2.Models
             }
 
             int remainingHP = HP - damage;
+            //Makes sure HP does not display in negative number
+            if (remainingHP < 0)
+            {
+                remainingHP = 0;
+            }
+
             HitPoints hp = new HitPoints();
             hp.HP = remainingHP;
             hp.TempHP = tempHp;
+            hp.MaxHP = maxHP;
             return hp;
         }
+        #endregion
     }
 }

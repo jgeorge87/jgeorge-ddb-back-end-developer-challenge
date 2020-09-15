@@ -9,5 +9,7 @@ namespace BrivTest2.Models
     {
         public int HP { get; set; }
         public int TempHP { get; set; }
+        public int MaxHP { get; set; }
+        public int HealingHP { get; set; }
     }
 }
