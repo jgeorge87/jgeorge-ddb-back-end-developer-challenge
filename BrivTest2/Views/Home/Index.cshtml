@@ -126,74 +126,88 @@
     }
 
     function TestDamage() {
-        var form = $('#testDamage');
-        form.submit(function (e) {
-            var form = $(this);
-            var damageType = $("#damageType").val();
-            var dhAmount = $("#damageHealAmount").val();
-            var damageSet = { damagetype: damageType, damage: dhAmount };
-            var damage = JSON.stringify(damageSet);
-            console.log(damage);
-
-            $.ajax({
-                url: 'http://localhost:49671/api/Values/dodamage',
-                cache: false,
-                type: 'POST',
-                data: damage,
-                contentType: 'application/json; charset=utf-8',
-                statusCode: {
-                    200: function (data) {
-                        var info = JSON.parse(data);
-                        document.getElementById('currentHP').innerHTML = info.HP;
-                        $("#temporaryHP").val(info.TempHP);
-                        $("#damageHealAmount").val('');
-                        $("#damageType").val('');
-                        console.log(data);
-                        document.getElementById("testDamage").reset(); 
-                    },
-
-                    500: function (data) {
-                        console.log(data);
-                        alert('There was an error processing your data.');
-                    }
-                }
-            });
-            e.stopImmediatePropagation();
+        var dhAmount = $("#damageHealAmount").val();
+        if (dhAmount === '' || dhAmount === null) {
+            alert('You must enter a value!');
             return false;
-        });
+        }
+
+        else {
+            var form = $('#testDamage');
+            form.submit(function (e) {
+                var form = $(this);
+                var damageType = $("#damageType").val();
+                var damageSet = { damagetype: damageType, damage: dhAmount };
+                var damage = JSON.stringify(damageSet);
+                console.log(damage);
+
+                $.ajax({
+                    url: 'http://localhost:49671/api/Values/dodamage',
+                    cache: false,
+                    type: 'POST',
+                    data: damage,
+                    contentType: 'application/json; charset=utf-8',
+                    statusCode: {
+                        200: function (data) {
+                            var info = JSON.parse(data);
+                            document.getElementById('currentHP').innerHTML = info.HP;
+                            $("#temporaryHP").val(info.TempHP);
+                            $("#damageHealAmount").val('');
+                            $("#damageType").val('');
+                            console.log(data);
+                            document.getElementById("testDamage").reset();
+                        },
+
+                        500: function (data) {
+                            console.log(data);
+                            alert('There was an error processing your data.');
+                        }
+                    }
+                });
+                e.stopImmediatePropagation();
+                return false;
+            });
+        }
     }
 
     function HealDamage() {
-        var form = $('#testHeal');
-        form.submit(function (e) {
-            var form = $(this);
-            var dhAmount = $("#damageHealAmount").val();
-            var healingAmt = { healingHP: dhAmount };
-            var damage = JSON.stringify(healingAmt);
-
-            $.ajax({
-                url: 'http://localhost:49671/api/Values/healhp',
-                cache: false,
-                type: 'POST',
-                data: damage,
-                contentType: 'application/json; charset=utf-8',
-                statusCode: {
-                    200: function (data) {
-                        var info = JSON.parse(data);
-                        document.getElementById('currentHP').innerHTML = info;
-                        $("#damageHealAmount").val('');
-                        console.log(data);
-                    },
-
-                    500: function (data) {
-                        console.log(data);
-                        alert('There was an error processing your data.');
-                    }
-                }
-            });
-            e.stopImmediatePropagation();
+        var dhAmount = $("#damageHealAmount").val();
+        if (dhAmount === '' || dhAmount === null) {
+            alert('You must enter a value!');
             return false;
-        });
+        }
+
+        else {
+            var form = $('#testHeal');
+            form.submit(function (e) {
+                var form = $(this);
+                var healingAmt = { healingHP: dhAmount };
+                var damage = JSON.stringify(healingAmt);
+
+                $.ajax({
+                    url: 'http://localhost:49671/api/Values/healhp',
+                    cache: false,
+                    type: 'POST',
+                    data: damage,
+                    contentType: 'application/json; charset=utf-8',
+                    statusCode: {
+                        200: function (data) {
+                            var info = JSON.parse(data);
+                            document.getElementById('currentHP').innerHTML = info;
+                            $("#damageHealAmount").val('');
+                            console.log(data);
+                        },
+
+                        500: function (data) {
+                            console.log(data);
+                            alert('There was an error processing your data.');
+                        }
+                    }
+                });
+                e.stopImmediatePropagation();
+                return false;
+            });
+        }
     }
 
     $("#temporaryHP").blur(function () {
