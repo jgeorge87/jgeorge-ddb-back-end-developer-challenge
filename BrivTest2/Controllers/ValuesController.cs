@@ -14,9 +14,8 @@ namespace BrivTest2.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly IHostingEnvironment _env;
-        //These are used with the Session Manager
+        //These is used with the Session Manager
         private Character _character = new Character();
-        private Modifier _modifiers = new Modifier();
         private bool isSaved; //would be used for error handling
         public ValuesController(IHostingEnvironment env)
         {
@@ -67,6 +66,7 @@ namespace BrivTest2.Controllers
         public IActionResult GetModifiers()
         {
             Processing process = new Processing(_env);
+            Modifier _modifiers = new Modifier();
 
             _character = SessionManager.Get<Character>(HttpContext.Session, "character");
             _modifiers = process.GetStatModifiers(_character.Stats);
