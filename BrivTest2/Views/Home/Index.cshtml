@@ -76,7 +76,7 @@
     $(document).ready(function () {
         $.ajax({
             type: 'GET',
-            url: 'https://localhost:44306/api/Values/getcharacter',
+            url: 'http://localhost:49671/api/Values/getcharacter',
             statusCode: {
                 200: function (data) {
                     var info = JSON.parse(data);
@@ -103,7 +103,7 @@
 
     function GetModifiers() {
         $.ajax({
-            url: 'https://localhost:44306/api/Values/getmodifiers',
+            url: 'http://localhost:49671/api/Values/getmodifiers',
             type: 'GET',
             statusCode: {
                 200: function (data) {
@@ -136,7 +136,7 @@
             console.log(damage);
 
             $.ajax({
-                url: 'https://localhost:44306/api/Values/dodamage',
+                url: 'http://localhost:49671/api/Values/dodamage',
                 cache: false,
                 type: 'POST',
                 data: damage,
@@ -172,7 +172,7 @@
             var damage = JSON.stringify(healingAmt);
 
             $.ajax({
-                url: 'https://localhost:44306/api/Values/healhp',
+                url: 'http://localhost:49671/api/Values/healhp',
                 cache: false,
                 type: 'POST',
                 data: damage,
@@ -202,7 +202,7 @@
         var json = JSON.stringify(hp);
 
         $.ajax({
-            url: 'https://localhost:44306/api/Values/addtemphp',
+            url: 'http://localhost:49671/api/Values/addtemphp',
             cache: false,
             type: 'POST',
             data: json,

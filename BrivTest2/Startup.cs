@@ -52,7 +52,7 @@ namespace BrivTest2
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+                //app.UseHsts();
             }
 
             app.UseCors(builder =>
@@ -63,7 +63,7 @@ namespace BrivTest2
                 .AllowAnyHeader();
             });
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
